@@ -5,7 +5,14 @@ const crypto = require('crypto');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+
+// Configuración correcta de Socket.io para Render
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 app.use(express.static('public'));
 
@@ -25,7 +32,7 @@ io.on('connection', (socket) => {
       genero: data.genero,
       socketId: socket.id,
       pinIngresado: null,
-      estado: 'esperando_aprobacion1'   // ← Nueva etapa 1
+      estado: 'esperando_aprobacion1'
     };
     pendingRequests.push(request);
     io.emit('listaActualizada', pendingRequests);
@@ -45,7 +52,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Profesor: Aprobar etapa 1 → pasa a PIN
+  // Profesor: Aprobar etapa 1
   socket.on('aprobarEtapa1', (requestId) => {
     const request = pendingRequests.find(r => r.id === requestId);
     if (request && request.estado === 'esperando_aprobacion1') {
@@ -56,7 +63,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Profesor: Declinar etapa 1 (rechazo total)
+  // Profesor: Declinar etapa 1
   socket.on('declinarEtapa1', (requestId) => {
     const request = pendingRequests.find(r => r.id === requestId);
     if (request) {
@@ -78,7 +85,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Profesor: Declinar etapa 2 → vuelve a PIN
+  // Profesor: Declinar etapa 2
   socket.on('declinarEtapa2', (requestId) => {
     const request = pendingRequests.find(r => r.id === requestId);
     if (request) {
@@ -99,8 +106,10 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('🚀 Servidor listo en http://localhost:3000');
-  console.log('   Estudiante → http://localhost:3000');
-  console.log('   Profesor   → http://localhost:3000/admin.html');
+// ←←← ESTO ES LO MÁS IMPORTANTE PARA RENDER
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`🚀 Servidor listo en puerto ${PORT}`);
+  console.log(`   Estudiante → https://fastfunds-demo.onrender.com`);
+  console.log(`   Profesor   → https://fastfunds-demo.onrender.com/admin.html`);
 });
