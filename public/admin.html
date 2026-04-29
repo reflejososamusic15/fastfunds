@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del Profesor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-8">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-4xl font-bold text-amber-400 mb-2">🔧 Panel del Profesor</h1>
+    <p class="text-gray-400 mb-8">Solicitudes con dos etapas de aprobación</p>
+
+    <div id="listaSolicitudes" class="bg-gray-800 rounded-3xl p-6 min-h-[400px]">
+      <p id="mensajeVacio" class="text-gray-400 italic text-center py-20">Aún no hay solicitudes...</p>
+    </div>
+
+    <button onclick="reiniciarTodo()" 
+            class="mt-8 px-10 py-4 bg-red-600 hover:bg-red-500 rounded-2xl font-medium">
+      🔄 Reiniciar toda la demo
+    </button>
+  </div>
+
+  <script>
+    const socket = io();
+    const listaDiv = document.getElementById('listaSolicitudes');
+    const vacio = document.getElementById('mensajeVacio');
+
+    socket.on('listaActualizada', (solicitudes) => {
+      if (solicitudes.length === 0) {
+        vacio.style.display = 'block';
+        listaDiv.innerHTML = `<p class="text-gray-400 italic text-center py-20">Aún no hay solicitudes...</p>`;
+        return;
+      }
+      vacio.style.display = 'none';
+
+      let html = '<div class="space-y-4">';
+      solicitudes.forEach(req => {
+        let pinHTML = req.pinIngresado 
+          ? `<span class="text-green-400 font-mono text-xl">PIN: <strong>${req.pinIngresado}</strong></span>` 
+          : `<span class="text-gray-500">Sin PIN aún</span>`;
+
+        let botones = '';
+        if (req.estado === 'esperando_aprobacion1') {
+          botones = `
+            <div class="flex gap-3">
+              <button onclick="aprobarEtapa1('${req.id}')" class="px-8 py-3 bg-green-600 hover:bg-green-500 rounded-2xl font-medium">✅ Aprobar (Etapa 1)</button>
+              <button onclick="declinarEtapa1('${req.id}')" class="px-8 py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium">❌ Declinar</button>
+            </div>`;
+        } else if (req.estado === 'esperando_aprobacion2') {
+          botones = `
+            <div class="flex gap-3">
+              <button onclick="aprobarEtapa2('${req.id}')" class="px-8 py-3 bg-green-600 hover:bg-green-500 rounded-2xl font-medium">✅ Aprobar (Etapa 2)</button>
+              <button onclick="declinarEtapa2('${req.id}')" class="px-8 py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium">❌ Declinar</button>
+            </div>`;
+        } else {
+          botones = `<span class="text-gray-500">En progreso...</span>`;
+        }
+
+        html += `
+          <div class="flex items-center justify-between bg-gray-700 rounded-2xl px-6 py-5">
+            <div>
+              <strong>${req.nombre} ${req.apellido}</strong><br>
+              <span class="text-sm text-gray-400">${req.telefono} • ${req.genero}</span><br>
+              ${pinHTML}
+            </div>
+            <div>${botones}</div>
+          </div>`;
+      });
+      html += '</div>';
+      listaDiv.innerHTML = html;
+    });
+
+    function aprobarEtapa1(id) { socket.emit('aprobarEtapa1', id); }
+    function declinarEtapa1(id) { if (confirm('¿Declinar esta solicitud completamente?')) socket.emit('declinarEtapa1', id); }
+    function aprobarEtapa2(id) { socket.emit('aprobarEtapa2', id); }
+    function declinarEtapa2(id) { socket.emit('declinarEtapa2', id); }
+
+    function reiniciarTodo() {
+      if (confirm('¿Reiniciar TODA la demo?')) socket.emit('reiniciar');
+    }
+  </script>
+</body>
+</html>

