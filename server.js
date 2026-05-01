@@ -108,8 +108,10 @@ io.on('connection', (socket) => {
 
 // ←←← ESTO ES LO MÁS IMPORTANTE PARA RENDER
 const PORT = process.env.PORT || 3000;
+const publicURL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+
 server.listen(PORT, () => {
   console.log(`🚀 Servidor listo en puerto ${PORT}`);
-  console.log(`   Estudiante → https://fastfunds-demo.onrender.com`);
-  console.log(`   Profesor   → https://fastfunds-demo.onrender.com/admin.html`);
+  console.log(`   Estudiante → ${publicURL}`);
+  console.log(`   Profesor   → ${publicURL}/admin.html`);
 });
