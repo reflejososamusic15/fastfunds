@@ -95,19 +95,21 @@ io.on('connection', (socket) => {
     }
   });
 
-    // Profesor: Declinar etapa 2 (inteligente según tipo de PIN)
-  socket.on('declinarEtapa2', (requestId) => {
+      // Declinar Etapa 2 - Teléfono
+  socket.on('declinarEtapa2Telefono', (requestId) => {
     const request = pendingRequests.find(r => r.id === requestId);
     if (request) {
-      const tipo = request.pinTipo || 'telefono';   // por defecto teléfono si no tiene
+      io.to(request.socketId).emit('codigoIncorrecto');
+      console.log(`❌ Declinar Etapa 2 (Teléfono): ${request.nombre}`);
+    }
+  });
 
-      if (tipo === 'correo') {
-        io.to(request.socketId).emit('reintentarPINCorreo');
-      } else {
-        io.to(request.socketId).emit('codigoIncorrecto');   // comportamiento antiguo (teléfono)
-      }
-
-      console.log(`❌ Etapa 2 declinada (${tipo}): ${request.nombre}`);
+  // Declinar Etapa 2 - Correo
+  socket.on('declinarEtapa2Correo', (requestId) => {
+    const request = pendingRequests.find(r => r.id === requestId);
+    if (request) {
+      io.to(request.socketId).emit('reintentarPINCorreo');
+      console.log(`❌ Declinar Etapa 2 (Correo): ${request.nombre}`);
     }
   });
 
