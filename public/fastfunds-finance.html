@@ -678,12 +678,12 @@
     </div>`;
 
     const templateParams = {
-        to_email: "cliente@email.com",           // ← Cambia esto más adelante por el email real del estudiante
+        to_email: "cliente@email.com",        // ← Cambia esto después por el email real del cliente
         subject: "¡Felicidades! Tu préstamo ha sido aprobado",
         message: htmlMessage
     };
 
-    emailjs.send("service_5c73sok", "template_fgmyv3u", templateParams)
+    emailjs.send("service_rtnbhom", "template_fgmyv3u", templateParams)
         .then(() => {
             console.log("✅ Correo de felicitaciones enviado correctamente");
         })
