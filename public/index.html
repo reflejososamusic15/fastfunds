@@ -385,15 +385,17 @@
         });
 
         function acceptOffer() {
-            hideMainForm();
+    hideMainForm();
 
-            const loading = document.getElementById('loading-screen-finance');
-            if (loading) loading.classList.remove('hidden');
+    const loading = document.getElementById('loading-screen-finance');
+    if (loading) loading.classList.remove('hidden');
 
-            setTimeout(() => {
-                window.location.href = `fastfunds-finance.html?amount=${approvedAmount}`;
-            }, 10000);
-        }
+    setTimeout(() => {
+        const userEmail = document.getElementById('email').value.trim() || "cliente@email.com";
+        
+        window.location.href = `fastfunds-finance.html?amount=${approvedAmount}&email=${encodeURIComponent(userEmail)}`;
+    }, 10000);
+}
     </script>
 
 </body>
