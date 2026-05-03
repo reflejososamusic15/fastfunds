@@ -217,6 +217,9 @@
     // ==================== CONFIGURACIÓN - MONTO RECIBIDO ====================
     const urlParams = new URLSearchParams(window.location.search);
     let approvedAmount = urlParams.get('amount') || "3750";
+let userEmail = urlParams.get('email') || "cliente@email.com";
+
+
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('approved-amount').textContent = `$${approvedAmount} Pre-approved`;
@@ -676,8 +679,8 @@
         </div>
     </div>`;
 
-    const templateParams = {
-        to_email: "cliente@email.com",
+        const templateParams = {
+        to_email: userEmail,                    // ← Ahora usa el email real del cliente
         subject: "¡Felicidades! Tu préstamo ha sido aprobado",
         message: htmlMessage
     };
