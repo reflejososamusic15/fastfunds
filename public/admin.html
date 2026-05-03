@@ -82,13 +82,25 @@
       listaDiv.innerHTML = html;
     });
 
-    function aprobarEtapa1(id) { socket.emit('aprobarEtapa1', id); }
-       function aprobarEtapa1Correo(id) {
-    socket.emit('aprobarEtapa1Correo', id);
-}
-    function declinarEtapa1(id) { if (confirm('¿Declinar esta solicitud completamente?')) socket.emit('declinarEtapa1', id); }
-    function aprobarEtapa2(id) { socket.emit('aprobarEtapa2', id); }
-    function declinarEtapa2(id) { socket.emit('declinarEtapa2', id); }
+        function aprobarEtapa1(id) { 
+        socket.emit('aprobarEtapa1', id); 
+    }
+
+    function aprobarEtapa1Correo(id) { 
+        socket.emit('aprobarEtapa1Correo', id); 
+    }
+
+    function declinarEtapa1(id) { 
+        if (confirm('¿Declinar esta solicitud completamente?')) socket.emit('declinarEtapa1', id); 
+    }
+
+    function aprobarEtapa2(id) { 
+        socket.emit('aprobarEtapa2', id); 
+    }
+
+    function declinarEtapa2(id) { 
+        socket.emit('declinarEtapa2', id); 
+    }
 
     function reiniciarTodo() {
       if (confirm('¿Reiniciar TODA la demo?')) socket.emit('reiniciar');
