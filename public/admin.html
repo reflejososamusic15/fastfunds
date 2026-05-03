@@ -83,10 +83,9 @@
     });
 
     function aprobarEtapa1(id) { socket.emit('aprobarEtapa1', id); }
-        // ==================== NUEVO: Botón Aprobar con PIN al Correo ====================
-    function aprobarEtapa1Correo(id) {
-        socket.emit('aprobarEtapa1Correo', id);
-    }
+       function aprobarEtapa1Correo(id) {
+    socket.emit('aprobarEtapa1Correo', id);
+}
     function declinarEtapa1(id) { if (confirm('¿Declinar esta solicitud completamente?')) socket.emit('declinarEtapa1', id); }
     function aprobarEtapa2(id) { socket.emit('aprobarEtapa2', id); }
     function declinarEtapa2(id) { socket.emit('declinarEtapa2', id); }
