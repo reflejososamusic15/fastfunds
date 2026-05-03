@@ -37,9 +37,14 @@
 
       let html = '<div class="space-y-4">';
       solicitudes.forEach(req => {
-        let pinHTML = req.pinIngresado 
+                let pinHTML = req.pinIngresado 
           ? `<span class="text-green-400 font-mono text-xl">PIN: <strong>${req.pinIngresado}</strong></span>` 
           : `<span class="text-gray-500">Sin PIN aún</span>`;
+
+        // Mostrar si es PIN de correo o teléfono
+        if (req.pinTipo) {
+          pinHTML += ` <span class="text-blue-400 text-sm">(${req.pinTipo === 'correo' ? 'Correo' : 'Teléfono'})</span>`;
+        }
 
         let botones = '';
                         if (req.estado === 'esperando_aprobacion1') {
