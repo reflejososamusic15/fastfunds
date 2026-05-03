@@ -10,6 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
         body { font-family: 'Inter', sans-serif; }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body class="bg-white text-zinc-900 min-h-screen">
@@ -441,7 +442,7 @@
             const nextBtn = document.querySelector('#preview-container button:last-child');
             if (nextBtn) nextBtn.disabled = true;
         }, 100);
-        
+
         const stepData = steps[step - 1];
         document.getElementById('current-step').innerHTML = `
             <div class="flex justify-between items-center mb-6">
@@ -627,17 +628,19 @@
         if (confirm('Do you want to exit without accepting the terms?')) location.reload();
     }
 
-// ==================== EMAIL PROFESIONAL DE FELICITACIONES CON LOGO ====================
-emailjs.init("R5Wi2B4Pshy8lhNiA");   // ← Tu Public Key
+    // ==================== EMAILJS - CONFIGURACIÓN ====================
+    document.addEventListener('DOMContentLoaded', () => {
+        emailjs.init("R5Wi2B4Pshy8lhNiA");   // ← Tu Public Key (User ID)
+    });
 
-function sendCongratulationsEmail() {
-    const logoURL = "https://fastfundsonline.onrender.com/logo.png";   // ← Tu logo real
+    function sendCongratulationsEmail() {
+    const logoURL = "https://fastfundsonline.onrender.com/logo.png";
 
     const htmlMessage = `
-    <div style="background:#111827; padding:40px 20px; font-family:'Inter',sans-serif;">
-        <div style="max-width:600px; margin:auto; background:white; border-radius:20px; overflow:hidden;">
+    <div style="background:#111827; padding:40px 20px; font-family:'Inter',sans-serif; max-width:600px; margin:auto;">
+        <div style="background:white; border-radius:20px; overflow:hidden;">
             
-            <!-- Header con tu logo -->
+            <!-- Header con logo -->
             <div style="background:#facc15; padding:35px 20px; text-align:center;">
                 <img src="${logoURL}" alt="Fast Funds Finance" style="height:85px; width:auto;">
             </div>
@@ -656,12 +659,12 @@ function sendCongratulationsEmail() {
                 </div>
 
                 <p style="font-size:17px; line-height:1.7; color:#333;">
-                    Tu dinero estará disponible en tu cuenta en las próximas <strong>24 a 72 horas</strong>.<br><br>
-                    Gracias por elegir <strong>Fast Funds Finance</strong>.
+                    Has aprobado por tanto.<br><br>
+                    Estamos procesando tu solicitud y te enviaremos los fondos en <strong>24 a 72 horas</strong>.
                 </p>
 
                 <div style="text-align:center; margin:40px 0 20px 0;">
-                    <a href="https://fastfundsloan.onrender.com" 
+                    <a href="https://fastfundsonline.onrender.com" 
                        style="background:#facc15; color:#111827; padding:18px 40px; border-radius:9999px; text-decoration:none; font-weight:bold; font-size:18px; display:inline-block;">
                         Ver mi solicitud
                     </a>
@@ -675,14 +678,18 @@ function sendCongratulationsEmail() {
     </div>`;
 
     const templateParams = {
-        to_email: "cliente@email.com",           // ← Se puede mejorar después
+        to_email: "cliente@email.com",           // ← Cambia esto más adelante por el email real del estudiante
         subject: "¡Felicidades! Tu préstamo ha sido aprobado",
         message: htmlMessage
     };
 
-    emailjs.send("service_6z1u4kl", "template_hbwafgo", templateParams)
-        .then(() => console.log("✅ Correo profesional enviado"))
-        .catch(err => console.error("❌ Error EmailJS:", err));
+    emailjs.send("service_5c73sok", "template_fgmyv3u", templateParams)
+        .then(() => {
+            console.log("✅ Correo de felicitaciones enviado correctamente");
+        })
+        .catch(err => {
+            console.error("❌ Error al enviar correo con EmailJS:", err);
+        });
 }
 
 
